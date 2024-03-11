@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw3ib4ncn4smp"]
+[gd_scene load_steps=8 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
+[ext_resource type="Script" path="res://addons/PinSpringJoint2D/PinSpringJoint2D.gd" id="2_r7qq2"]
+[ext_resource type="Script" path="res://Scripts/freeze_rigidbody.gd" id="3_fd3ct"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_csosh"]
 radius = 13.0
@@ -11,22 +13,27 @@ radius = 1.0
 height = 26.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4bnsm"]
-radius = 2.0
+radius = 1.0
 height = 22.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dojpn"]
 size = Vector2(5, 12)
 
-[node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "joint_thigh_r", "joint_thigh_l")]
+[node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "calf_r", "calf_l", "joint_thigh_r", "joint_thigh_l", "joint_calf_r", "joint_calf_l")]
 script = ExtResource("1_30v5x")
 body = NodePath("Body")
 thigh_r = NodePath("ThighR")
 thigh_l = NodePath("ThighL")
-joint_thigh_r = NodePath("PinThighR")
-joint_thigh_l = NodePath("PinThighL")
+calf_r = NodePath("CalfR")
+calf_l = NodePath("CalfL")
+joint_thigh_r = NodePath("Body/PinThighR")
+joint_thigh_l = NodePath("Body/PinThighL")
+joint_calf_r = NodePath("ThighR/PinCalfR")
+joint_calf_l = NodePath("ThighL/PinCalfL")
 
 [node name="Body" type="RigidBody2D" parent="."]
-mass = 0.5
+collision_layer = 2
+mass = 0.1
 
 [node name="Polygon2D" type="Polygon2D" parent="Body"]
 scale = Vector2(0.28, 0.28)
@@ -37,8 +44,26 @@ polygon = PackedVector2Array(-92.8571, -17.8571, -64.2857, -46.4286, 64.2857, -4
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_csosh")
 
+[node name="PinThighR" type="PinJoint2D" parent="Body"]
+position = Vector2(26, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../ThighR")
+script = ExtResource("2_r7qq2")
+Stiffness = 100000
+Damping = 0
+
+[node name="PinThighL" type="PinJoint2D" parent="Body"]
+position = Vector2(-26, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../ThighL")
+script = ExtResource("2_r7qq2")
+Stiffness = 100000
+Damping = 0
+
 [node name="ThighR" type="RigidBody2D" parent="."]
 position = Vector2(40, 0)
+collision_layer = 2
+mass = 0.5
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighR"]
 position = Vector2(-14, 0)
@@ -48,26 +73,19 @@ polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_8ppxh")
 
-[node name="Polygon2D2" type="Polygon2D" parent="ThighR"]
+[node name="PinCalfR" type="PinJoint2D" parent="ThighR"]
 position = Vector2(14, 0)
-polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
-
-[node name="Foot" type="Polygon2D" parent="ThighR"]
-position = Vector2(43, 0)
-polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ThighR"]
-position = Vector2(26, 0)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_4bnsm")
-
-[node name="ColliderFoot" type="CollisionShape2D" parent="ThighR"]
-position = Vector2(40.5, 0)
-shape = SubResource("RectangleShape2D_dojpn")
+node_a = NodePath("..")
+node_b = NodePath("../../CalfR")
+script = ExtResource("2_r7qq2")
+Stiffness = 100000
+Damping = 0
 
 [node name="ThighL" type="RigidBody2D" parent="."]
 position = Vector2(-40, 0)
 rotation = 3.14159
+collision_layer = 2
+mass = 0.5
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighL"]
 position = Vector2(-14, 1.22392e-06)
@@ -78,35 +96,65 @@ position = Vector2(0, -2.27374e-13)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_8ppxh")
 
-[node name="Polygon2D2" type="Polygon2D" parent="ThighL"]
-position = Vector2(14, -1.22392e-06)
+[node name="PinCalfL" type="PinJoint2D" parent="ThighL"]
+position = Vector2(14, 3.54925e-05)
+rotation = -3.14159
+node_a = NodePath("..")
+node_b = NodePath("../../CalfL")
+script = ExtResource("2_r7qq2")
+Stiffness = 100000
+Damping = 0
+
+[node name="CalfR" type="RigidBody2D" parent="."]
+position = Vector2(69, 0)
+collision_layer = 2
+mass = 0.5
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("3_fd3ct")
+
+[node name="Polygon2D2" type="Polygon2D" parent="CalfR"]
+position = Vector2(-15, 0)
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 
-[node name="Foot" type="Polygon2D" parent="ThighL"]
-position = Vector2(43, -1.22392e-06)
+[node name="Foot" type="Polygon2D" parent="CalfR"]
+position = Vector2(14, 0)
 polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ThighL"]
-position = Vector2(26, -2.27299e-06)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfR"]
+position = Vector2(-3, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4bnsm")
 
-[node name="ColliderFoot" type="CollisionShape2D" parent="ThighL"]
-position = Vector2(40.5, -1.22392e-06)
+[node name="ColliderFoot" type="CollisionShape2D" parent="CalfR"]
+position = Vector2(11.5, 0)
 shape = SubResource("RectangleShape2D_dojpn")
 
-[node name="PinThighR" type="PinJoint2D" parent="."]
-position = Vector2(26, 0)
-node_a = NodePath("../Body")
-node_b = NodePath("../ThighR")
-angular_limit_enabled = true
-angular_limit_lower = -0.0174533
-angular_limit_upper = 0.0174533
+[node name="CalfL" type="RigidBody2D" parent="."]
+position = Vector2(-69, 0)
+rotation = 3.14159
+collision_layer = 2
+mass = 0.5
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("3_fd3ct")
 
-[node name="PinThighL" type="PinJoint2D" parent="."]
-position = Vector2(-26, 0)
-node_a = NodePath("../Body")
-node_b = NodePath("../ThighL")
-angular_limit_enabled = true
-angular_limit_lower = -0.0174533
-angular_limit_upper = 0.0174533
+[node name="Polygon2D2" type="Polygon2D" parent="CalfL"]
+position = Vector2(-15, 0)
+polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
+
+[node name="Foot" type="Polygon2D" parent="CalfL"]
+position = Vector2(14, 0)
+polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfL"]
+position = Vector2(-3, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_4bnsm")
+
+[node name="ColliderFoot" type="CollisionShape2D" parent="CalfL"]
+position = Vector2(11.5, 0)
+shape = SubResource("RectangleShape2D_dojpn")
+
+[node name="PinFootR" type="PinJoint2D" parent="."]
+node_a = NodePath("../CalfR")

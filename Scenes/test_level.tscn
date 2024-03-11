@@ -22,4 +22,4 @@ visible = false
 shape = SubResource("RectangleShape2D_ni7lc")
 
 [node name="Biomech" parent="." instance=ExtResource("2_t8q1d")]
-position = Vector2(562, 159)
+position = Vector2(583, 412)
