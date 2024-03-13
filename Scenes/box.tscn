@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt6v5u7tty05b"]
+
+[ext_resource type="Script" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="1_qiqk3"]
+
+[sub_resource type="Texture2D" id="Texture2D_jw3et"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_qiqk3")
+path = "key/command"
+show_mode = 0
+force_type = 0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cy0yo"]
+size = Vector2(56, 54)
+
+[node name="Box" type="RigidBody2D"]
+position = Vector2(327, 546)
+collision_layer = 4
+collision_mask = 7
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = SubResource("Texture2D_jw3et")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_cy0yo")

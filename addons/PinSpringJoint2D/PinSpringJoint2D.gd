@@ -18,8 +18,8 @@ var stiffness
 var damping
 var rest_angle_rads
 
-var body_a : RigidBody2D
-var body_b : RigidBody2D
+var body_a : PhysicsBody2D
+var body_b : PhysicsBody2D
 
 var debug = false
 
@@ -90,12 +90,12 @@ func apply_rot_spring():
 	if debug:
 		print(str(l_to_x) + ", " + str(u))
 
-	#if body_a.get("applied_torque") != null:
+	if body_a.get("angular_velocity") != null:
 		#body_a.applied_torque -= torque
-	body_a.apply_torque(-torque)
-	#if body_b.get("applied_torque") != null:
+		body_a.apply_torque(-torque)
+	if body_b.get("angular_velocity") != null:
 		#body_b.applied_torque += torque
-	body_b.apply_torque(torque)
+		body_b.apply_torque(torque)
 
 func _physics_process(delta):
 	if body_a == null or body_b == null or Engine.is_editor_hint():

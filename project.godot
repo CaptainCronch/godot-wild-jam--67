@@ -11,17 +11,25 @@ config_version=5
 [application]
 
 config/name="Godot Wild Jam #67"
-run/main_scene="res://Scenes/test_level.tscn"
+run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
 
 [autoload]
 
 Global="*res://Scripts/global.gd"
+ControllerIcons="*res://addons/controller_icons/ControllerIcons.gd"
+
+[display]
+
+window/size/viewport_width=810
+window/size/viewport_height=810
+window/size/resizable=false
+window/size/borderless=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/PinSpringJoint2D/plugin.cfg")
+enabled=PackedStringArray("res://addons/PinSpringJoint2D/plugin.cfg", "res://addons/controller_icons/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/rmsmartshape/plugin.cfg")
 
 [input]
 
@@ -55,6 +63,7 @@ escape={
 
 2d_physics/layer_1="Environment"
 2d_physics/layer_2="Biomech"
+2d_physics/layer_3="Moving"
 
 [physics]
 

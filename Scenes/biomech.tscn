@@ -1,12 +1,50 @@
-[gd_scene load_steps=8 format=3 uid="uid://bw3ib4ncn4smp"]
+[gd_scene load_steps=18 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
 [ext_resource type="Script" path="res://addons/PinSpringJoint2D/PinSpringJoint2D.gd" id="2_r7qq2"]
+[ext_resource type="Script" path="res://Scripts/transform_follow.gd" id="3_2colb"]
+[ext_resource type="Script" path="res://Scripts/pos_follow.gd" id="3_81erl"]
 [ext_resource type="Script" path="res://Scripts/freeze_rigidbody.gd" id="3_fd3ct"]
+[ext_resource type="Script" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="3_p0qlk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i61q8"]
+friction = 0.8
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_csosh"]
 radius = 13.0
 height = 52.0
+
+[sub_resource type="Texture2D" id="Texture2D_8cnrs"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("3_p0qlk")
+path = "flex_up"
+show_mode = 0
+force_type = 0
+
+[sub_resource type="Texture2D" id="Texture2D_1ogw2"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("3_p0qlk")
+path = "flex_down"
+show_mode = 0
+force_type = 0
+
+[sub_resource type="Texture2D" id="Texture2D_773cr"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("3_p0qlk")
+path = "lock_left"
+show_mode = 0
+force_type = 0
+
+[sub_resource type="Texture2D" id="Texture2D_7fl6m"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("3_p0qlk")
+path = "lock_right"
+show_mode = 0
+force_type = 0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ppxh"]
 radius = 1.0
@@ -16,10 +54,17 @@ height = 26.0
 radius = 1.0
 height = 22.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dojpn"]
-size = Vector2(5, 12)
+[sub_resource type="CircleShape2D" id="CircleShape2D_0p41m"]
+radius = 2.0
 
-[node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "calf_r", "calf_l", "joint_thigh_r", "joint_thigh_l", "joint_calf_r", "joint_calf_l")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vj805"]
+radius = 5.0
+height = 15.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_khcbt"]
+radius = 2.0
+
+[node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "calf_r", "calf_l", "joint_thigh_r", "joint_thigh_l", "joint_calf_r", "joint_calf_l", "joint_foot_r", "joint_foot_l", "debug_label")]
 script = ExtResource("1_30v5x")
 body = NodePath("Body")
 thigh_r = NodePath("ThighR")
@@ -30,10 +75,31 @@ joint_thigh_r = NodePath("Body/PinThighR")
 joint_thigh_l = NodePath("Body/PinThighL")
 joint_calf_r = NodePath("ThighR/PinCalfR")
 joint_calf_l = NodePath("ThighL/PinCalfL")
+joint_foot_r = NodePath("PinFootR")
+joint_foot_l = NodePath("PinFootL")
+debug_label = NodePath("DebugLabel")
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="PinFootR" type="PinJoint2D" parent="."]
+node_a = NodePath("../CalfR")
+bias = 0.1
+disable_collision = false
+softness = 16.0
+
+[node name="PinFootL" type="PinJoint2D" parent="."]
+node_a = NodePath("../CalfL")
+bias = 0.1
+disable_collision = false
+softness = 16.0
 
 [node name="Body" type="RigidBody2D" parent="."]
 collision_layer = 2
+collision_mask = 5
 mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_i61q8")
 
 [node name="Polygon2D" type="Polygon2D" parent="Body"]
 scale = Vector2(0.28, 0.28)
@@ -48,6 +114,7 @@ shape = SubResource("CapsuleShape2D_csosh")
 position = Vector2(26, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../ThighR")
+softness = 1.0
 script = ExtResource("2_r7qq2")
 Stiffness = 100000
 Damping = 0
@@ -56,105 +123,176 @@ Damping = 0
 position = Vector2(-26, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../ThighL")
+softness = 1.0
 script = ExtResource("2_r7qq2")
 Stiffness = 100000
 Damping = 0
 
+[node name="Prompts" type="Node2D" parent="Body" node_paths=PackedStringArray("target")]
+visible = false
+top_level = true
+script = ExtResource("3_2colb")
+target = NodePath("..")
+damp = 5.0
+auto_enable = true
+
+[node name="KeyHolder" type="Node2D" parent="Body/Prompts"]
+position = Vector2(0, -100)
+
+[node name="FlexUp" type="Sprite2D" parent="Body/Prompts/KeyHolder"]
+top_level = true
+scale = Vector2(0.5, 0.5)
+texture = SubResource("Texture2D_8cnrs")
+script = ExtResource("3_81erl")
+
+[node name="KeyHolder2" type="Node2D" parent="Body/Prompts"]
+position = Vector2(0, 100)
+
+[node name="FlexDown" type="Sprite2D" parent="Body/Prompts/KeyHolder2"]
+top_level = true
+scale = Vector2(0.5, 0.5)
+texture = SubResource("Texture2D_1ogw2")
+script = ExtResource("3_81erl")
+
+[node name="KeyHolder3" type="Node2D" parent="Body/Prompts"]
+position = Vector2(-150, 0)
+
+[node name="LeftLeg" type="Sprite2D" parent="Body/Prompts/KeyHolder3"]
+top_level = true
+scale = Vector2(0.5, 0.5)
+texture = SubResource("Texture2D_773cr")
+script = ExtResource("3_81erl")
+
+[node name="KeyHolder4" type="Node2D" parent="Body/Prompts"]
+position = Vector2(150, 0)
+
+[node name="RightLeg" type="Sprite2D" parent="Body/Prompts/KeyHolder4"]
+top_level = true
+scale = Vector2(0.5, 0.5)
+texture = SubResource("Texture2D_7fl6m")
+script = ExtResource("3_81erl")
+
 [node name="ThighR" type="RigidBody2D" parent="."]
-position = Vector2(40, 0)
+position = Vector2(26, 0)
 collision_layer = 2
+collision_mask = 5
 mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_i61q8")
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighR"]
-position = Vector2(-14, 0)
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighR"]
+position = Vector2(14, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_8ppxh")
 
 [node name="PinCalfR" type="PinJoint2D" parent="ThighR"]
-position = Vector2(14, 0)
+position = Vector2(28, 0)
 node_a = NodePath("..")
 node_b = NodePath("../../CalfR")
+softness = 1.0
 script = ExtResource("2_r7qq2")
 Stiffness = 100000
 Damping = 0
 
 [node name="ThighL" type="RigidBody2D" parent="."]
-position = Vector2(-40, 0)
+position = Vector2(-26, 0)
 rotation = 3.14159
 collision_layer = 2
+collision_mask = 5
 mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_i61q8")
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighL"]
-position = Vector2(-14, 1.22392e-06)
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighL"]
-position = Vector2(0, -2.27374e-13)
+position = Vector2(14, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_8ppxh")
 
 [node name="PinCalfL" type="PinJoint2D" parent="ThighL"]
-position = Vector2(14, 3.54925e-05)
+position = Vector2(28, 0)
 rotation = -3.14159
 node_a = NodePath("..")
 node_b = NodePath("../../CalfL")
+softness = 1.0
 script = ExtResource("2_r7qq2")
 Stiffness = 100000
 Damping = 0
 
 [node name="CalfR" type="RigidBody2D" parent="."]
-position = Vector2(69, 0)
+position = Vector2(54, 0)
 collision_layer = 2
+collision_mask = 5
 mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_i61q8")
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("3_fd3ct")
 
 [node name="Polygon2D2" type="Polygon2D" parent="CalfR"]
-position = Vector2(-15, 0)
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 
 [node name="Foot" type="Polygon2D" parent="CalfR"]
-position = Vector2(14, 0)
+position = Vector2(29, 0)
 polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfR"]
-position = Vector2(-3, 0)
+position = Vector2(12, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4bnsm")
 
 [node name="ColliderFoot" type="CollisionShape2D" parent="CalfR"]
-position = Vector2(11.5, 0)
-shape = SubResource("RectangleShape2D_dojpn")
+position = Vector2(26, 0)
+shape = SubResource("CircleShape2D_0p41m")
+
+[node name="StickCheck" type="Area2D" parent="CalfR"]
+position = Vector2(26, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CalfR/StickCheck"]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_vj805")
 
 [node name="CalfL" type="RigidBody2D" parent="."]
-position = Vector2(-69, 0)
+position = Vector2(-54, 0)
 rotation = 3.14159
 collision_layer = 2
+collision_mask = 5
 mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_i61q8")
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("3_fd3ct")
 
 [node name="Polygon2D2" type="Polygon2D" parent="CalfL"]
-position = Vector2(-15, 0)
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 
 [node name="Foot" type="Polygon2D" parent="CalfL"]
-position = Vector2(14, 0)
+position = Vector2(29, 0)
 polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfL"]
-position = Vector2(-3, 0)
+position = Vector2(12, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4bnsm")
 
 [node name="ColliderFoot" type="CollisionShape2D" parent="CalfL"]
-position = Vector2(11.5, 0)
-shape = SubResource("RectangleShape2D_dojpn")
+position = Vector2(26, 0)
+shape = SubResource("CircleShape2D_khcbt")
 
-[node name="PinFootR" type="PinJoint2D" parent="."]
-node_a = NodePath("../CalfR")
+[node name="StickCheck" type="Area2D" parent="CalfL"]
+position = Vector2(26, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CalfL/StickCheck"]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_vj805")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[connection signal="body_entered" from="CalfR/StickCheck" to="." method="_on_right_body_entered"]
+[connection signal="body_exited" from="CalfR/StickCheck" to="." method="_on_right_body_exited"]
+[connection signal="body_entered" from="CalfL/StickCheck" to="." method="_on_left_body_entered"]
+[connection signal="body_exited" from="CalfL/StickCheck" to="." method="_on_left_body_exited"]
