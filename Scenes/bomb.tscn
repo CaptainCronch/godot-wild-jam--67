@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr15p1aw5g3d7"]
+
+[ext_resource type="Script" path="res://Scripts/bomb.gd" id="1_j28r2"]
+[ext_resource type="Script" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="2_y18nr"]
+
+[sub_resource type="Texture2D" id="Texture2D_q0ikr"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("2_y18nr")
+path = "joypad/b"
+show_mode = 0
+force_type = 0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mkon7"]
+radius = 30.0666
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mnfvy"]
+radius = 200.0
+
+[node name="Bomb" type="RigidBody2D"]
+collision_layer = 4
+script = ExtResource("1_j28r2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = SubResource("Texture2D_q0ikr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_mkon7")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Checker" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checker"]
+visible = false
+shape = SubResource("CircleShape2D_mnfvy")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

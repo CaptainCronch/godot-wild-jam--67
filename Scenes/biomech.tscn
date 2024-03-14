@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bw3ib4ncn4smp"]
+[gd_scene load_steps=19 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
 [ext_resource type="Script" path="res://addons/PinSpringJoint2D/PinSpringJoint2D.gd" id="2_r7qq2"]
@@ -46,23 +46,24 @@ path = "lock_right"
 show_mode = 0
 force_type = 0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ppxh"]
-radius = 1.0
-height = 26.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvg7r"]
+size = Vector2(6, 30)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4bnsm"]
-radius = 1.0
-height = 22.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sg4li"]
+size = Vector2(6, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvvj8"]
+size = Vector2(6, 25)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0p41m"]
-radius = 2.0
+radius = 3.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vj805"]
 radius = 5.0
 height = 15.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_khcbt"]
-radius = 2.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cwqk5"]
+size = Vector2(6, 25)
 
 [node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "calf_r", "calf_l", "joint_thigh_r", "joint_thigh_l", "joint_calf_r", "joint_calf_l", "joint_foot_r", "joint_foot_l", "debug_label")]
 script = ExtResource("1_30v5x")
@@ -100,6 +101,7 @@ collision_layer = 2
 collision_mask = 5
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
+continuous_cd = 2
 
 [node name="Polygon2D" type="Polygon2D" parent="Body"]
 scale = Vector2(0.28, 0.28)
@@ -178,6 +180,7 @@ collision_layer = 2
 collision_mask = 5
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
+continuous_cd = 2
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighR"]
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
@@ -185,7 +188,7 @@ polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighR"]
 position = Vector2(14, 0)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_8ppxh")
+shape = SubResource("RectangleShape2D_xvg7r")
 
 [node name="PinCalfR" type="PinJoint2D" parent="ThighR"]
 position = Vector2(28, 0)
@@ -203,6 +206,7 @@ collision_layer = 2
 collision_mask = 5
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
+continuous_cd = 2
 
 [node name="Polygon2D" type="Polygon2D" parent="ThighL"]
 polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
@@ -210,7 +214,7 @@ polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighL"]
 position = Vector2(14, 0)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_8ppxh")
+shape = SubResource("RectangleShape2D_sg4li")
 
 [node name="PinCalfL" type="PinJoint2D" parent="ThighL"]
 position = Vector2(28, 0)
@@ -228,6 +232,7 @@ collision_layer = 2
 collision_mask = 5
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
+continuous_cd = 2
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("3_fd3ct")
@@ -240,9 +245,9 @@ position = Vector2(29, 0)
 polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfR"]
-position = Vector2(12, 0)
+position = Vector2(11.5, -1.81e-06)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_4bnsm")
+shape = SubResource("RectangleShape2D_tvvj8")
 
 [node name="ColliderFoot" type="CollisionShape2D" parent="CalfR"]
 position = Vector2(26, 0)
@@ -251,6 +256,7 @@ shape = SubResource("CircleShape2D_0p41m")
 [node name="StickCheck" type="Area2D" parent="CalfR"]
 position = Vector2(26, 0)
 collision_layer = 2
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CalfR/StickCheck"]
 position = Vector2(1, 0)
@@ -263,6 +269,7 @@ collision_layer = 2
 collision_mask = 5
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
+continuous_cd = 2
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("3_fd3ct")
@@ -277,15 +284,16 @@ polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfL"]
 position = Vector2(12, 0)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_4bnsm")
+shape = SubResource("RectangleShape2D_cwqk5")
 
 [node name="ColliderFoot" type="CollisionShape2D" parent="CalfL"]
 position = Vector2(26, 0)
-shape = SubResource("CircleShape2D_khcbt")
+shape = SubResource("CircleShape2D_0p41m")
 
 [node name="StickCheck" type="Area2D" parent="CalfL"]
 position = Vector2(26, 0)
 collision_layer = 2
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CalfL/StickCheck"]
 position = Vector2(1, 0)

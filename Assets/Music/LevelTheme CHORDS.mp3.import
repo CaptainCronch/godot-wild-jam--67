@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dncwi0fm56ea0"
+path="res://.godot/imported/LevelTheme CHORDS.mp3-0e301e4e887fd14132469ed0dad4311d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/LevelTheme CHORDS.mp3"
+dest_files=["res://.godot/imported/LevelTheme CHORDS.mp3-0e301e4e887fd14132469ed0dad4311d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=150.0
+beat_count=32
+bar_beats=4

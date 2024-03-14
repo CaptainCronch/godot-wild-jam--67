@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://o1a44h21yd67"
+path="res://.godot/imported/LevelTheme MELODY E.mp3-3346f1efd9859b3bbf08922ac2c86a6c.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/LevelTheme MELODY E.mp3"
+dest_files=["res://.godot/imported/LevelTheme MELODY E.mp3-3346f1efd9859b3bbf08922ac2c86a6c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=150.0
+beat_count=32
+bar_beats=4

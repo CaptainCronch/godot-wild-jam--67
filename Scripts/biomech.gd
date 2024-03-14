@@ -75,17 +75,17 @@ func normalize_ang(ang):
 		return ang
 
 
-func _on_right_body_entered(body):
-	foot_collider_r.append(body)
+func _on_right_body_entered(_body):
+	foot_collider_r.append(_body)
 
 
-func _on_right_body_exited(body):
-	foot_collider_r.erase(body)
+func _on_right_body_exited(_body):
+	foot_collider_r.erase(_body)
 
 
-func _on_left_body_entered(body):
-	foot_collider_l.append(body)
+func _on_left_body_entered(_body):
+	foot_collider_l.append(_body)
 
 
-func _on_left_body_exited(body):
-	foot_collider_l.erase(body)
+func _on_left_body_exited(_body):
+	foot_collider_l.erase(_body)

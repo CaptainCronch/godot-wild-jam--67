@@ -10,7 +10,7 @@ func _ready():
 	if auto_enable:
 		visible = true
 	if player:
-		target = target.get_node("Body")
+		target = target.body
 
 
 func _process(delta):

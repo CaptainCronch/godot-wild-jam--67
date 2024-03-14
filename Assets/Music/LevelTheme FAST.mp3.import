@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://blkg7kjco0dk6"
+path="res://.godot/imported/LevelTheme FAST.mp3-b0ea72d03be7056322e2877cc6688c4b.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/LevelTheme FAST.mp3"
+dest_files=["res://.godot/imported/LevelTheme FAST.mp3-b0ea72d03be7056322e2877cc6688c4b.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=150.0
+beat_count=24
+bar_beats=4
