@@ -1,9 +1,15 @@
 extends Node
 
+const TEXT_TIME := 1.0
+
 var player : Node2D
+var message_label : Label
+var message_tween : Tween
 
 
-#func _ready():
+func _ready():
+	message_tween = get_tree().create_tween()
+	message_tween.kill()
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	#get_window().mode = Window.MODE_FULLSCREEN
 
@@ -33,6 +39,14 @@ var player : Node2D
 		#get_window().warp_mouse(pos)
 	#elif Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func set_message(text : String):
+	message_label.text = text
+	message_label.visible_characters = 0
+	if message_tween.is_valid(): message_tween.kill()
+	message_tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CIRC)
+	message_tween.tween_property(message_label, "visible_characters", text.length(), TEXT_TIME)
 
 
 func decay_towards(value : float, target : float,

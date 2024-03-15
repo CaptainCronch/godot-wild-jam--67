@@ -2,6 +2,7 @@ extends Node2D
 
 const MAX_FLEX := 80.0
 const PUSH_FORCE := 500.0
+const INACTIVITY_TIME := 3.0
 
 var desired_rotation := 45.0
 var rotation_speed := 200.0
@@ -11,6 +12,8 @@ var blocked_l := false
 
 var foot_collider_r : Array[Node2D] = []
 var foot_collider_l : Array[Node2D] = []
+
+var inactive_tween : Tween
 
 @export var body : RigidBody2D
 @export var thigh_r : RigidBody2D
@@ -37,6 +40,8 @@ var body_parts : Array[RigidBody2D]
 
 
 func _ready():
+	inactive_tween = get_tree().create_tween()
+	inactive_tween.kill()
 	body_parts = [body, thigh_r, thigh_l, calf_r, calf_l]
 	Global.player = self
 
@@ -95,17 +100,45 @@ func normalize_ang(ang):
 
 
 func check_keys():
-	if Input.is_action_pressed("flex_up"): flex_up.self_modulate = Color.WEB_GRAY
-	else: flex_up.self_modulate = Color.WHITE
+	var active := false
+	if Input.is_action_just_pressed("flex_up"):
+		flex_up.self_modulate = Color.WEB_GRAY
+		active = true
+	elif Input.is_action_just_released("flex_up"): flex_up.self_modulate = Color.WHITE
 
-	if Input.is_action_pressed("flex_down"): flex_down.self_modulate = Color.WEB_GRAY
-	else: flex_down.self_modulate = Color.WHITE
+	if Input.is_action_just_pressed("flex_down"):
+		flex_down.self_modulate = Color.WEB_GRAY
+		active = true
+	elif Input.is_action_just_released("flex_down"): flex_down.self_modulate = Color.WHITE
 
-	if Input.is_action_pressed("lock_left"): left_leg.self_modulate = Color.WEB_GRAY
-	else: left_leg.self_modulate = Color.WHITE
+	if Input.is_action_just_pressed("lock_left"):
+		left_leg.self_modulate = Color.WEB_GRAY
+		active = true
+	elif Input.is_action_just_released("lock_left"): left_leg.self_modulate = Color.WHITE
 
-	if Input.is_action_pressed("lock_right"): right_leg.self_modulate = Color.WEB_GRAY
-	else: right_leg.self_modulate = Color.WHITE
+	if Input.is_action_just_pressed("lock_right"):
+		right_leg.self_modulate = Color.WEB_GRAY
+		active = true
+	elif Input.is_action_just_released("lock_right"): right_leg.self_modulate = Color.WHITE
+
+	if Input.is_action_just_pressed("interact"): active = true
+
+	if active:
+		flex_up.modulate = Color.WHITE
+		flex_down.modulate = Color.WHITE
+		left_leg.modulate = Color.WHITE
+		right_leg.modulate = Color.WHITE
+		inactive_tween.kill()
+		return
+
+	if inactive_tween.is_valid(): return
+
+	inactive_tween = get_tree().create_tween()
+	inactive_tween.tween_interval(INACTIVITY_TIME)
+	inactive_tween.tween_property(flex_up, "modulate", Color.TRANSPARENT, 2.0)
+	inactive_tween.parallel().tween_property(flex_down, "modulate", Color.TRANSPARENT, 2.0)
+	inactive_tween.parallel().tween_property(left_leg, "modulate", Color.TRANSPARENT, 2.0)
+	inactive_tween.parallel().tween_property(right_leg, "modulate", Color.TRANSPARENT, 2.0)
 
 
 func _on_right_body_entered(_body):

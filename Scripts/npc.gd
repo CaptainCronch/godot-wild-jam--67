@@ -30,8 +30,9 @@ func _process(delta):
 			dialogue_index += 1
 			if dialogue_index > dialogues.size() - 1:
 				dialogue_index = 0
-			current_bubble.label.text = dialogues[dialogue_index]
+			Global.set_message(dialogues[dialogue_index])
 	else:
+		Global.set_message("")
 		dialogue_index = -1
 		if is_instance_valid(current_bubble):
 			current_bubble.queue_free()

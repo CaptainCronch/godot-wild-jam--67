@@ -1,16 +1,16 @@
 [gd_scene load_steps=29 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
-[ext_resource type="Texture2D" uid="uid://dq1nt0qtiw50n" path="res://Assets/Player/RoboLeg.png" id="2_0tmu6"]
+[ext_resource type="Texture2D" uid="uid://dq1nt0qtiw50n" path="res://Assets/Player/RoboLeg.png" id="2_25rst"]
 [ext_resource type="Script" path="res://addons/PinSpringJoint2D/PinSpringJoint2D.gd" id="2_r7qq2"]
 [ext_resource type="Script" path="res://Scripts/transform_follow.gd" id="3_2colb"]
 [ext_resource type="PackedScene" uid="uid://k72gcod0fjgc" path="res://Scenes/outline.tscn" id="3_8rtkg"]
 [ext_resource type="Script" path="res://Scripts/pos_follow.gd" id="3_81erl"]
 [ext_resource type="Script" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="3_p0qlk"]
-[ext_resource type="Texture2D" uid="uid://c3apctkajuy2u" path="res://Assets/Player/RoboFeet.png" id="5_k2af7"]
 [ext_resource type="Script" path="res://Scripts/feet.gd" id="5_ldi04"]
-[ext_resource type="Texture2D" uid="uid://bcpue62buwrq1" path="res://Assets/Player/RoboBody1.png" id="6_nnq61"]
-[ext_resource type="Texture2D" uid="uid://bph5tcelf0tin" path="res://Assets/Player/RoboBody2.png" id="7_amoo2"]
+[ext_resource type="Texture2D" uid="uid://c3apctkajuy2u" path="res://Assets/Player/RoboFeet.png" id="6_t74xm"]
+[ext_resource type="Texture2D" uid="uid://bcpue62buwrq1" path="res://Assets/Player/RoboBody1.png" id="7_il38b"]
+[ext_resource type="Texture2D" uid="uid://bph5tcelf0tin" path="res://Assets/Player/RoboBody2.png" id="8_0wiy5"]
 [ext_resource type="Script" path="res://Scripts/rotate_down.gd" id="8_oo7fy"]
 [ext_resource type="AudioStream" uid="uid://dkj0ixq0vehfm" path="res://Assets/Sounds/Grab/SFX Grab A.mp3" id="13_xvwey"]
 [ext_resource type="AudioStream" uid="uid://hpydc7e54fyh" path="res://Assets/Sounds/Grab/SFX Grab B.mp3" id="14_4uh1x"]
@@ -123,7 +123,7 @@ continuous_cd = 2
 position = Vector2(13, 0)
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("2_0tmu6")
+texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="ThighR/Sprite2D" instance=ExtResource("3_8rtkg")]
 show_behind_parent = false
@@ -161,7 +161,7 @@ continuous_cd = 2
 position = Vector2(13, 0)
 rotation = -3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("2_0tmu6")
+texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="ThighL/Sprite2D" instance=ExtResource("3_8rtkg")]
 show_behind_parent = false
@@ -202,7 +202,7 @@ script = ExtResource("5_ldi04")
 position = Vector2(13, 0)
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("2_0tmu6")
+texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="CalfR/Sprite2D" instance=ExtResource("3_8rtkg")]
 
@@ -214,7 +214,7 @@ polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 position = Vector2(25, 0.5)
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("5_k2af7")
+texture = ExtResource("6_t74xm")
 offset = Vector2(-20, 0)
 
 [node name="Outline" parent="CalfR/Foot" instance=ExtResource("3_8rtkg")]
@@ -262,7 +262,7 @@ right = false
 position = Vector2(13, 0)
 rotation = -3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("2_0tmu6")
+texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="CalfL/Sprite2D" instance=ExtResource("3_8rtkg")]
 
@@ -274,7 +274,7 @@ polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
 position = Vector2(25, 0.5)
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("5_k2af7")
+texture = ExtResource("6_t74xm")
 offset = Vector2(-20, 0)
 
 [node name="Outline" parent="CalfL/Foot" instance=ExtResource("3_8rtkg")]
@@ -316,14 +316,14 @@ continuous_cd = 2
 [node name="Sprite2D" type="Sprite2D" parent="Body"]
 position = Vector2(0, -5.195)
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("6_nnq61")
+texture = ExtResource("7_il38b")
 
 [node name="Outline" parent="Body/Sprite2D" instance=ExtResource("3_8rtkg")]
 
 [node name="Face" type="Sprite2D" parent="Body"]
 position = Vector2(0, -4.76837e-07)
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("7_amoo2")
+texture = ExtResource("8_0wiy5")
 script = ExtResource("8_oo7fy")
 
 [node name="Polygon2D" type="Polygon2D" parent="Body"]
