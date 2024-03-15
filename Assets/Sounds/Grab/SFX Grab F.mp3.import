@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0bgguj1v37fb"
+path="res://.godot/imported/SFX Grab F.mp3-8d700c80d38fbabda212c34a34492d6e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Grab/SFX Grab F.mp3"
+dest_files=["res://.godot/imported/SFX Grab F.mp3-8d700c80d38fbabda212c34a34492d6e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

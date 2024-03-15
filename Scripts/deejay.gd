@@ -37,8 +37,9 @@ var drum_loops := 0
 
 var race_time := false
 
+
 func _ready():
-	AudioServer.set_bus_mute(music_bus, false)
+	#AudioServer.set_bus_mute(music_bus, true)
 
 	ambient = AudioStreamPlayer.new()
 	add_child(ambient)
@@ -75,6 +76,11 @@ func _ready():
 	melody.play()
 
 	reset_music()
+
+
+func _process(_delta):
+	if Input.is_action_just_pressed("mute"):
+		AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
 
 
 func reset_music():

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dvv223i7oljej"
+path="res://.godot/imported/Voice Mid Q.mp3-ee6760d564d0757af6400f05fa313680.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Voice/Voice Mid Q.mp3"
+dest_files=["res://.godot/imported/Voice Mid Q.mp3-ee6760d564d0757af6400f05fa313680.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

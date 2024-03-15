@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://kjsbpxt7xvhx"
+path="res://.godot/imported/Voice Low C.mp3-1fad1a476242f53edf755b8f10dd6adf.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Voice/Voice Low C.mp3"
+dest_files=["res://.godot/imported/Voice Low C.mp3-1fad1a476242f53edf755b8f10dd6adf.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

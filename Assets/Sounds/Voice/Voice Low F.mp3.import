@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://clgyhx230ybsq"
+path="res://.godot/imported/Voice Low F.mp3-eba3029508c86e626f2a12ff87ac14c5.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Voice/Voice Low F.mp3"
+dest_files=["res://.godot/imported/Voice Low F.mp3-eba3029508c86e626f2a12ff87ac14c5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

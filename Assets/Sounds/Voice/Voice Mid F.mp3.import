@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dn2k2q6agdmvm"
+path="res://.godot/imported/Voice Mid F.mp3-d89d2c5395be79f5fe2dde29814856d1.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Voice/Voice Mid F.mp3"
+dest_files=["res://.godot/imported/Voice Mid F.mp3-d89d2c5395be79f5fe2dde29814856d1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

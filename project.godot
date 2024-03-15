@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Godot Wild Jam #67"
+config/name="Yoinkusbox"
 run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-boot_splash/bg_color=Color(0, 0.172549, 0.113725, 1)
+boot_splash/bg_color=Color(0.0588235, 0.0588235, 0.0588235, 1)
 boot_splash/show_image=false
 config/icon="res://Assets/icon.svg"
 
@@ -67,6 +67,11 @@ interact={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)
 ]
 }
+mute={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":109,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -74,7 +79,8 @@ interact={
 2d_physics/layer_2="Biomech"
 2d_physics/layer_3="Item"
 2d_physics/layer_4="Climbable"
-2d_physics/layer_5="Layer 5"
+2d_physics/layer_5="Special"
+2d_physics/layer_6="Unclimbable"
 2d_physics/layer_9="Layer 9"
 
 [physics]
@@ -85,3 +91,4 @@ interact={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0705882, 0.0705882, 0.0705882, 1)

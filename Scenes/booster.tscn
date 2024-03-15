@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://bdio45ea0nv56"]
+
+[ext_resource type="Script" path="res://Scripts/booster.gd" id="1_33kn7"]
+[ext_resource type="Texture2D" uid="uid://sijk7wr3u6pq" path="res://Assets/spring.png" id="2_ds5w0"]
+[ext_resource type="Shader" path="res://outline.gdshader" id="3_1ouk8"]
+[ext_resource type="AudioStream" uid="uid://ce4s16ui86avi" path="res://Assets/Sounds/SFX_Jump.mp3" id="3_6c7on"]
+[ext_resource type="Texture2D" uid="uid://b5gwrgupat5uo" path="res://Assets/pad.png" id="4_a5bsx"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1ify0"]
+diffuse_texture = ExtResource("2_ds5w0")
+texture_repeat = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ayygn"]
+shader = ExtResource("3_1ouk8")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 2.0
+shader_parameter/pattern = 1
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ofd2b"]
+size = Vector2(101, 95)
+
+[sub_resource type="Animation" id="Animation_etwjo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wxm0q"]
+resource_name = "bounce"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5, 0.7, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -70), Vector2(0, 20), Vector2(0, -10), Vector2(0, 5), Vector2(0, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cafmn"]
+_data = {
+"RESET": SubResource("Animation_etwjo"),
+"bounce": SubResource("Animation_wxm0q")
+}
+
+[node name="Booster" type="Area2D"]
+collision_layer = 16
+collision_mask = 6
+script = ExtResource("1_33kn7")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 50.0
+texture = SubResource("CanvasTexture_1ify0")
+texture_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ayygn")
+position = Vector2(0, -42)
+texture = ExtResource("4_a5bsx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0.5, -46.5)
+shape = SubResource("RectangleShape2D_ofd2b")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cafmn")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_6c7on")
+volume_db = 3.0
+max_polyphony = 2
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

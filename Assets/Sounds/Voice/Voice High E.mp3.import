@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://e3xdwpvbdpi0"
+path="res://.godot/imported/Voice High E.mp3-cdaff7a8be0da01d5b0264d065736be3.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Voice/Voice High E.mp3"
+dest_files=["res://.godot/imported/Voice High E.mp3-cdaff7a8be0da01d5b0264d065736be3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

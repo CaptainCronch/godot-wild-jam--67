@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://k72gcod0fjgc"]
+
+[ext_resource type="Script" path="res://Scripts/outline.gd" id="1_f36o3"]
+[ext_resource type="Material" uid="uid://l0dbu6l03vov" path="res://outline_mat.tres" id="1_igbby"]
+
+[node name="Outline" type="Sprite2D"]
+show_behind_parent = true
+z_index = -1
+material = ExtResource("1_igbby")
+script = ExtResource("1_f36o3")

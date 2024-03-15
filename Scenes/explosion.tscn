@@ -1,0 +1,80 @@
+[gd_scene load_steps=17 format=3 uid="uid://x1g4opgmc8dm"]
+
+[ext_resource type="AudioStream" uid="uid://bjecwrqwlm7ep" path="res://Assets/Sounds/Explode/anchor_action.mp3" id="1_ffq50"]
+[ext_resource type="Texture2D" uid="uid://dda78s32vbkw0" path="res://Assets/circle.png" id="1_ikfcv"]
+[ext_resource type="AudioStream" uid="uid://dh37twyyp0rrp" path="res://Assets/Sounds/Explode/exit.mp3" id="2_k6qk3"]
+[ext_resource type="AudioStream" uid="uid://c4ds8nqhk1amh" path="res://Assets/Sounds/Explode/link.mp3" id="3_q78o7"]
+[ext_resource type="AudioStream" uid="uid://dpn6rc741ltyq" path="res://Assets/Sounds/Explode/magnet_action.mp3" id="4_yfcnm"]
+[ext_resource type="AudioStream" uid="uid://paeg100m1lnn" path="res://Assets/Sounds/Explode/magnet_off.mp3" id="5_adtmh"]
+[ext_resource type="AudioStream" uid="uid://ck4oobx40r0ks" path="res://Assets/Sounds/Explode/magnet_on.mp3" id="6_nr3ia"]
+[ext_resource type="AudioStream" uid="uid://ct2plu4gvqp4q" path="res://Assets/Sounds/Explode/magnet_start.mp3" id="7_4t7v7"]
+[ext_resource type="AudioStream" uid="uid://cy5kiw0cgmyxd" path="res://Assets/Sounds/Explode/part.mp3" id="8_qr5ru"]
+[ext_resource type="AudioStream" uid="uid://cr83rtbth7rk4" path="res://Assets/Sounds/Explode/unlink.mp3" id="9_5mnho"]
+[ext_resource type="AudioStream" uid="uid://btav5y3a0dd4t" path="res://Assets/Sounds/Explode/wall.mp3" id="10_ar8rv"]
+[ext_resource type="Script" path="res://Scripts/self_destruct.gd" id="11_02npj"]
+
+[sub_resource type="Curve" id="Curve_ljm1c"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(0.129555, 0.637363), 1.68473, 1.68473, 0, 0, Vector2(0.65587, 0.956044), 0.0, 0.0, 0, 0, Vector2(0.995951, 0), -8.76922, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_ijwpd"]
+offsets = PackedFloat32Array(0.762557, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_tcai4"]
+offsets = PackedFloat32Array(0, 0.479452, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ygtrm"]
+random_pitch = 2.0
+random_volume_offset_db = 1.0
+streams_count = 10
+stream_0/stream = ExtResource("1_ffq50")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_k6qk3")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("3_q78o7")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("4_yfcnm")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("5_adtmh")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("6_nr3ia")
+stream_5/weight = 1.0
+stream_6/stream = ExtResource("7_4t7v7")
+stream_6/weight = 1.0
+stream_7/stream = ExtResource("8_qr5ru")
+stream_7/weight = 1.0
+stream_8/stream = ExtResource("9_5mnho")
+stream_8/weight = 1.0
+stream_9/stream = ExtResource("10_ar8rv")
+stream_9/weight = 1.0
+
+[node name="Explosion" type="CPUParticles2D"]
+emitting = false
+amount = 10
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.95
+randomness = 0.3
+texture = ExtResource("1_ikfcv")
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 122)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+scale_amount_min = 0.2
+scale_amount_curve = SubResource("Curve_ljm1c")
+color_ramp = SubResource("Gradient_ijwpd")
+color_initial_ramp = SubResource("Gradient_tcai4")
+script = ExtResource("11_02npj")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_ygtrm")
+volume_db = 8.0
+autoplay = true
+bus = &"SFX"
+
+[connection signal="finished" from="." to="." method="_on_finished"]
