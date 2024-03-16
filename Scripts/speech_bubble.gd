@@ -18,13 +18,13 @@ func _ready():
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "position", og_pos + fly, time)
 
-	var border_tween := get_tree().create_tween()
+	var border_tween := get_tree().create_tween().bind_node(border)
 
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_loops()
-	tween.tween_property(border, "scale", Vector2(0.9, 0.9), 2)
-	tween.tween_property(border, "scale", Vector2(1.1, 1.1), 2)
+	border_tween.set_ease(Tween.EASE_IN_OUT)
+	border_tween.set_trans(Tween.TRANS_SINE)
+	border_tween.set_loops()
+	border_tween.tween_property(border, "scale", Vector2(0.9, 0.9), 2)
+	border_tween.tween_property(border, "scale", Vector2(1.1, 1.1), 2)
 
 
 func _process(delta):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://c30os61jb8011"]
+[gd_scene load_steps=65 format=3 uid="uid://c30os61jb8011"]
 
 [ext_resource type="Script" path="res://Scripts/ui.gd" id="1_3m7vh"]
 [ext_resource type="Texture2D" uid="uid://dn1k6r2k5g320" path="res://Assets/Environment/1024-64-checkers.png" id="1_3n5an"]
@@ -10,35 +10,94 @@
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/edge_material_metadata.gd" id="3_c8ksk"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/vertex_properties.gd" id="4_k07je"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point.gd" id="5_d5yce"]
+[ext_resource type="Shader" path="res://outline.gdshader" id="5_q1fs7"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point_array.gd" id="6_0s5g0"]
+[ext_resource type="Texture2D" uid="uid://stmy7nm68hum" path="res://Assets/Slimetoken.png" id="6_mk8yg"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/shape_material.gd" id="8_ljcii"]
 [ext_resource type="Script" path="res://Scripts/transform_follow.gd" id="9_orlsd"]
 [ext_resource type="PackedScene" uid="uid://bw3ib4ncn4smp" path="res://Scenes/biomech.tscn" id="10_q56ow"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="11_vdc8c"]
-[ext_resource type="Texture2D" uid="uid://nbw58hglh0rk" path="res://Assets/Environment/BackgroundTransparent.png" id="11_w0vi5"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="12_kwqka"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="13_4w1hd"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/edge_material.gd" id="13_5puyk"]
 [ext_resource type="Texture2D" uid="uid://ce06c1quspbpe" path="res://Assets/Environment/GroundOutlineTop.png" id="15_inw7q"]
 [ext_resource type="Texture2D" uid="uid://bad6w60bsnacb" path="res://Assets/Environment/256-checkers.png" id="15_l6i8h"]
-[ext_resource type="PackedScene" uid="uid://bdio45ea0nv56" path="res://Scenes/booster.tscn" id="20_4o03o"]
-[ext_resource type="PackedScene" uid="uid://br5kll8dam7jc" path="res://Scenes/npc.tscn" id="23_xd8qk"]
-[ext_resource type="PackedScene" uid="uid://cr15p1aw5g3d7" path="res://Scenes/bomb.tscn" id="24_ixiyk"]
-[ext_resource type="PackedScene" uid="uid://bt6v5u7tty05b" path="res://Scenes/box.tscn" id="25_fw6ut"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f0cq6"]
+shader = ExtResource("5_q1fs7")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 5.0
+shader_parameter/pattern = 1
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="Animation" id="Animation_t6q08"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [5.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ln3bj"]
+resource_name = "idle"
+length = 5.0
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/width")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [5.0, 10.0, 5.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.25, 3.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.261799, -0.261799]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1owa6"]
+_data = {
+"RESET": SubResource("Animation_t6q08"),
+"idle": SubResource("Animation_ln3bj")
+}
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rmppk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sok23"]
 bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f7vx"]
-size = Vector2(329.466, 127.712)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kiddo"]
-size = Vector2(200, 200)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjigx"]
-size = Vector2(210, 210)
 
 [sub_resource type="Resource" id="Resource_k5ngk"]
 script = ExtResource("2_w6cva")
@@ -55,7 +114,7 @@ z_index = 0
 z_as_relative = true
 offset = 0.0
 
-[sub_resource type="Resource" id="Resource_vgwa8"]
+[sub_resource type="Resource" id="Resource_c703b"]
 script = ExtResource("4_k07je")
 texture_idx = -18
 flip = false
@@ -66,9 +125,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-587.873, 85.9558)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_vgwa8")
+properties = SubResource("Resource_c703b")
 
-[sub_resource type="Resource" id="Resource_sp5mq"]
+[sub_resource type="Resource" id="Resource_e65ne"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -79,9 +138,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(524.008, 91.6255)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_sp5mq")
+properties = SubResource("Resource_e65ne")
 
-[sub_resource type="Resource" id="Resource_0npeh"]
+[sub_resource type="Resource" id="Resource_b6ipg"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -92,9 +151,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(120.265, -572.28)
 point_in = Vector2(-13.2142, 100.051)
 point_out = Vector2(13.2142, -100.051)
-properties = SubResource("Resource_0npeh")
+properties = SubResource("Resource_b6ipg")
 
-[sub_resource type="Resource" id="Resource_ljr74"]
+[sub_resource type="Resource" id="Resource_kordm"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -105,9 +164,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(553.605, -454.552)
 point_in = Vector2(-196.326, -128.367)
 point_out = Vector2(196.326, 128.367)
-properties = SubResource("Resource_ljr74")
+properties = SubResource("Resource_kordm")
 
-[sub_resource type="Resource" id="Resource_bjjor"]
+[sub_resource type="Resource" id="Resource_7uxdg"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -118,9 +177,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(913.891, 277.501)
 point_in = Vector2(154.795, -305.815)
 point_out = Vector2(-154.795, 305.815)
-properties = SubResource("Resource_bjjor")
+properties = SubResource("Resource_7uxdg")
 
-[sub_resource type="Resource" id="Resource_hln0s"]
+[sub_resource type="Resource" id="Resource_u3mrp"]
 script = ExtResource("4_k07je")
 texture_idx = 1
 flip = false
@@ -131,9 +190,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-818.578, 291.934)
 point_in = Vector2(198.214, 273.724)
 point_out = Vector2(-198.214, -273.724)
-properties = SubResource("Resource_hln0s")
+properties = SubResource("Resource_u3mrp")
 
-[sub_resource type="Resource" id="Resource_ikb5u"]
+[sub_resource type="Resource" id="Resource_glc1o"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -144,9 +203,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-811.07, -380.395)
 point_in = Vector2(-101.938, 132.142)
 point_out = Vector2(101.938, -132.142)
-properties = SubResource("Resource_ikb5u")
+properties = SubResource("Resource_glc1o")
 
-[sub_resource type="Resource" id="Resource_2ppsk"]
+[sub_resource type="Resource" id="Resource_r52g1"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -157,9 +216,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-633.281, -378.807)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_2ppsk")
+properties = SubResource("Resource_r52g1")
 
-[sub_resource type="Resource" id="Resource_jclqc"]
+[sub_resource type="Resource" id="Resource_y7yxx"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -170,9 +229,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-588.834, -275.626)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_jclqc")
+properties = SubResource("Resource_y7yxx")
 
-[sub_resource type="Resource" id="Resource_vnses"]
+[sub_resource type="Resource" id="Resource_qbc72"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -183,9 +242,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(31.8395, -270.864)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_vnses")
+properties = SubResource("Resource_qbc72")
 
-[sub_resource type="Resource" id="Resource_m8mia"]
+[sub_resource type="Resource" id="Resource_7wlp6"]
 script = ExtResource("4_k07je")
 texture_idx = 0
 flip = false
@@ -196,9 +255,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(29.9518, -220.711)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_m8mia")
+properties = SubResource("Resource_7wlp6")
 
-[sub_resource type="Resource" id="Resource_xp37t"]
+[sub_resource type="Resource" id="Resource_0l2hi"]
 script = ExtResource("4_k07je")
 texture_idx = 5
 flip = false
@@ -209,9 +268,9 @@ script = ExtResource("5_d5yce")
 position = Vector2(-529.928, -123.063)
 point_in = Vector2(73.6222, -98.1629)
 point_out = Vector2(-73.6222, 98.1629)
-properties = SubResource("Resource_xp37t")
+properties = SubResource("Resource_0l2hi")
 
-[sub_resource type="Resource" id="Resource_dj6xa"]
+[sub_resource type="Resource" id="Resource_bq260"]
 script = ExtResource("4_k07je")
 texture_idx = -18
 flip = false
@@ -222,7 +281,7 @@ script = ExtResource("5_d5yce")
 position = Vector2(-587.873, 85.9558)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_dj6xa")
+properties = SubResource("Resource_bq260")
 
 [sub_resource type="Resource" id="Resource_yoxq1"]
 script = ExtResource("6_0s5g0")
@@ -332,10 +391,10 @@ texture_repeat = 2
 texture = ExtResource("2_fk2mt")
 centered = false
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("1_3m7vh")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -346,18 +405,18 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer"]
+[node name="MessageContainer" type="PanelContainer" parent="UI/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/MessageContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Message" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="Message" type="Label" parent="UI/MarginContainer/MessageContainer/MarginContainer"]
 custom_minimum_size = Vector2(884, 71)
 layout_mode = 2
 size_flags_vertical = 1
@@ -366,7 +425,66 @@ horizontal_alignment = 2
 autowrap_mode = 3
 visible_characters_behavior = 1
 
-[node name="QuitProgress" type="ProgressBar" parent="CanvasLayer"]
+[node name="SpinsContainer" type="PanelContainer" parent="UI/MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/SpinsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Spins" type="Label" parent="UI/MarginContainer/SpinsContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_vqwyh")
+
+[node name="CollectiblesContainer" type="PanelContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/CollectiblesContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HSplitContainer" type="HSplitContainer" parent="UI/MarginContainer/CollectiblesContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Collectibles" type="Label" parent="UI/MarginContainer/CollectiblesContainer/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_vqwyh")
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="UI/MarginContainer/CollectiblesContainer/MarginContainer/HSplitContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+texture = ExtResource("6_mk8yg")
+expand_mode = 3
+
+[node name="CollectiblesTexture" type="TextureRect" parent="UI"]
+material = SubResource("ShaderMaterial_f0cq6")
+offset_right = 59.4239
+offset_bottom = 71.0
+pivot_offset = Vector2(29.712, 35)
+texture = ExtResource("6_mk8yg")
+expand_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CollectiblesTexture"]
+libraries = {
+"": SubResource("AnimationLibrary_1owa6")
+}
+autoplay = "idle"
+
+[node name="QuitProgress" type="ProgressBar" parent="UI"]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = 1.0
@@ -377,7 +495,7 @@ theme_override_styles/background = SubResource("StyleBoxEmpty_rmppk")
 theme_override_styles/fill = SubResource("StyleBoxFlat_sok23")
 show_percentage = false
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/QuitProgress"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UI/QuitProgress"]
 stream = ExtResource("2_qnbc1")
 volume_db = -12.0
 bus = &"SFX"
@@ -385,54 +503,7 @@ bus = &"SFX"
 [node name="NPCs" type="Node2D" parent="."]
 z_index = 1
 
-[node name="NPC" parent="NPCs" instance=ExtResource("23_xd8qk")]
-position = Vector2(453, 610)
-dialogues = Array[String](["honestly i dont even know anymore", "why are we here? just to suffer?", "lol. lmao even.", "You. Me. Gas station. What are we getting for dinner? Sushi of course. Uh oh! There was a roofie in our gas station sushi. We black out and wake up in a sewer surrounded by fish. Horny fish. You know what that means. Fish orgy. The stench draws in a bear. What do we do? We're gonna fight it. Bear fight. Bare handed. Bare, naked? Oh, yes please. We befriend the bear after we beat it in a brawl and ride it into a Chuck E. Cheese. Dance Dance Revolution. Revolution? Overthrow the government? Uh, I think so. Next thing you know, I'm reincarnated as Jesus Christ. Then I turn into a jet, fly into the sun, black out again, wake up, do a bump, white out, which I didn't even know you could do. Then I smoked a joint, greened out. Then I turn into the sun. Uh oh! Looks like the meth is kicking in. aklfhaofhasfahfakh AAAAAAAAA afahfioahflkf AAAAA", "..."])
-
 [node name="Props" type="Node2D" parent="."]
-
-[node name="Booster" parent="Props" instance=ExtResource("20_4o03o")]
-position = Vector2(767, 613)
-
-[node name="NoClimb" type="Area2D" parent="Props"]
-visible = false
-position = Vector2(171.267, 559.144)
-collision_layer = 32
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Props/NoClimb"]
-shape = SubResource("RectangleShape2D_3f7vx")
-disabled = true
-
-[node name="Gravity" type="Area2D" parent="Props"]
-visible = false
-position = Vector2(295.022, 510.159)
-collision_layer = 16
-collision_mask = 2
-gravity_space_override = 3
-gravity_point_center = Vector2(0, -1)
-gravity_direction = Vector2(0, -1)
-gravity = 490.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Props/Gravity"]
-shape = SubResource("RectangleShape2D_kiddo")
-disabled = true
-
-[node name="Grate" type="StaticBody2D" parent="Props"]
-position = Vector2(547, 56)
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Props/Grate"]
-visible = false
-shape = SubResource("RectangleShape2D_kjigx")
-
-[node name="Sprite2D" type="Sprite2D" parent="Props/Grate"]
-texture_repeat = 2
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("11_w0vi5")
-region_enabled = true
-region_rect = Rect2(0, 0, 1400, 1400)
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -464,7 +535,7 @@ zoom = Vector2(1.2, 1.2)
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 script = ExtResource("11_vdc8c")
 
-[node name="PhantomCamera2D" type="Node2D" parent="."]
+[node name="PlayerCam" type="Node2D" parent="."]
 script = ExtResource("12_kwqka")
 priority_override = false
 priority = 0
@@ -473,7 +544,7 @@ follow_mode = 1
 follow_target = NodePath("../PlayerFollow")
 follow_parameters/damping = true
 follow_parameters/damping_value = 1.0
-frame_preview = true
+frame_preview = false
 pixel_perfect = false
 limit/draw_limits = false
 limit/left = -10000000
@@ -486,22 +557,4 @@ tween_parameters = SubResource("Resource_wvy6q")
 tween_on_load = true
 inactive_update_mode = 0
 
-[node name="Bomb" parent="." instance=ExtResource("24_ixiyk")]
-position = Vector2(446.032, 475.371)
-
-[node name="Bomb2" parent="." instance=ExtResource("24_ixiyk")]
-position = Vector2(446.032, 475.371)
-
-[node name="Bomb3" parent="." instance=ExtResource("24_ixiyk")]
-position = Vector2(446.032, 475.371)
-
-[node name="Bomb4" parent="." instance=ExtResource("24_ixiyk")]
-position = Vector2(446.032, 475.371)
-
-[node name="Bomb5" parent="." instance=ExtResource("24_ixiyk")]
-position = Vector2(762, 151)
-
-[node name="Box" parent="." instance=ExtResource("25_fw6ut")]
-position = Vector2(374, 402)
-
-[connection signal="finished" from="CanvasLayer/QuitProgress/AudioStreamPlayer" to="CanvasLayer" method="_on_audio_finished"]
+[connection signal="finished" from="UI/QuitProgress/AudioStreamPlayer" to="UI" method="_on_audio_finished"]

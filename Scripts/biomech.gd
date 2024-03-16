@@ -1,11 +1,15 @@
 extends Node2D
 
+signal spun(amount : float)
+
 const MAX_FLEX := 80.0
 const PUSH_FORCE := 500.0
 const INACTIVITY_TIME := 3.0
 
 var desired_rotation := 45.0
 var rotation_speed := 200.0
+
+var tracked_rotation := 0.0
 
 var blocked_r := false
 var blocked_l := false
@@ -15,6 +19,10 @@ var foot_collider_l : Array[Node2D] = []
 
 var inactive_tween : Tween
 
+var respawn_pos := Vector2()
+var respawn_time := 1.0
+var paused := false
+
 @export var body : RigidBody2D
 @export var thigh_r : RigidBody2D
 @export var thigh_l : RigidBody2D
@@ -22,6 +30,7 @@ var inactive_tween : Tween
 @export var calf_l : RigidBody2D
 
 var body_parts : Array[RigidBody2D]
+var joints : Array[PinSpringJoint2D]
 
 @export var joint_thigh_r : PinSpringJoint2D
 @export var joint_thigh_l : PinSpringJoint2D
@@ -39,15 +48,22 @@ var body_parts : Array[RigidBody2D]
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 
 
+func _enter_tree():
+	Global.player = self
+
+
 func _ready():
 	inactive_tween = get_tree().create_tween()
 	inactive_tween.kill()
 	body_parts = [body, thigh_r, thigh_l, calf_r, calf_l]
-	Global.player = self
+	joints = [$Body/PinThighR, $Body/PinThighL, $ThighR/PinCalfR, $ThighL/PinCalfL]
 
 
 func _process(delta):
+	if Input.is_action_just_pressed("retry"): respawn()
+
 	check_keys()
+	check_spins(delta)
 
 	var flex_dir := 0
 	if Input.is_action_pressed("flex_up"): flex_dir -= 1
@@ -121,13 +137,9 @@ func check_keys():
 		active = true
 	elif Input.is_action_just_released("lock_right"): right_leg.self_modulate = Color.WHITE
 
-	if Input.is_action_just_pressed("interact"): active = true
-
 	if active:
-		flex_up.modulate = Color.WHITE
-		flex_down.modulate = Color.WHITE
-		left_leg.modulate = Color.WHITE
-		right_leg.modulate = Color.WHITE
+		for key in prompts.get_children():
+			key.get_child(0).modulate = Color.WHITE
 		inactive_tween.kill()
 		return
 
@@ -139,6 +151,52 @@ func check_keys():
 	inactive_tween.parallel().tween_property(flex_down, "modulate", Color.TRANSPARENT, 2.0)
 	inactive_tween.parallel().tween_property(left_leg, "modulate", Color.TRANSPARENT, 2.0)
 	inactive_tween.parallel().tween_property(right_leg, "modulate", Color.TRANSPARENT, 2.0)
+
+
+func check_spins(delta : float) -> void :
+	if paused: return
+	tracked_rotation += body.angular_velocity * delta
+	if absf(tracked_rotation) >= deg_to_rad(180):
+		spun.emit(0.5)
+		tracked_rotation += deg_to_rad(180) * signf(tracked_rotation) * -1
+
+
+func respawn():
+	pause(true)
+
+	var limb_positions : PackedVector2Array = []
+
+	for limb in body_parts:
+		if limb == body: continue
+		limb_positions.append(limb.global_position - body.global_position)
+
+	#await get_tree().create_timer(respawn_time).timeout
+
+	body.global_position = respawn_pos
+	var i := 0
+	for limb in body_parts:
+		if limb == body: continue
+		limb.global_position = body.global_position + limb_positions[i]
+		i += 1
+
+	pause(false)
+
+	for n in range(10):
+		await get_tree().create_timer(0.1).timeout
+		body.global_position = respawn_pos
+		i = 0
+		for limb in body_parts:
+			if limb == body: continue
+			limb.global_position = body.global_position + limb_positions[i]
+			i += 1
+
+
+func pause(on : bool) -> void :
+	paused = on
+	for joint in joints:
+		joint.paused = on
+	for part in body_parts:
+		part.freeze = on
 
 
 func _on_right_body_entered(_body):

@@ -21,6 +21,8 @@ var rest_angle_rads
 var body_a : PhysicsBody2D
 var body_b : PhysicsBody2D
 
+var paused := false
+
 var debug = false
 
 func normalize_ang(ang):
@@ -78,6 +80,8 @@ func get_float(obj, prop):
 	return float(v)
 
 func apply_rot_spring():
+	if paused: return
+
 	var k = stiffness
 	var d = damping
 	var l = rest_angle_rads

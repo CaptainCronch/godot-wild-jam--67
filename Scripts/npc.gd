@@ -12,7 +12,7 @@ var current_bubble : CanvasItem
 @onready var animation_player := $AnimationPlayer
 @onready var audio = $AudioStreamPlayer2D
 
-func _process(delta):
+func _process(_delta):
 	if inside:
 		if Input.is_action_just_released("interact"):
 			var rand := randi_range(0, 1)

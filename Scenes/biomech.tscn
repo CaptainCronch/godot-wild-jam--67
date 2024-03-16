@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bw3ib4ncn4smp"]
+[gd_scene load_steps=30 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
 [ext_resource type="Texture2D" uid="uid://dq1nt0qtiw50n" path="res://Assets/Player/RoboLeg.png" id="2_25rst"]
@@ -21,8 +21,13 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i61q8"]
 friction = 0.8
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvg7r"]
-size = Vector2(12, 30)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_33cru"]
+radius = 6.0
+height = 37.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rrrbb"]
+radius = 6.0
+height = 37.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvvj8"]
 size = Vector2(12, 25)
@@ -34,7 +39,7 @@ radius = 8.0
 radius = 8.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_csosh"]
-radius = 19.0
+radius = 17.0
 height = 52.0
 
 [sub_resource type="Texture2D" id="Texture2D_8cnrs"]
@@ -128,15 +133,11 @@ texture = ExtResource("2_25rst")
 [node name="Outline" parent="ThighR/Sprite2D" instance=ExtResource("3_8rtkg")]
 show_behind_parent = false
 
-[node name="Polygon2D" type="Polygon2D" parent="ThighR"]
-visible = false
-polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighR"]
 visible = false
-position = Vector2(14, 0)
+position = Vector2(10.5, -1.267e-05)
 rotation = 1.5708
-shape = SubResource("RectangleShape2D_xvg7r")
+shape = SubResource("CapsuleShape2D_33cru")
 
 [node name="PinCalfR" type="PinJoint2D" parent="ThighR"]
 visible = false
@@ -166,15 +167,11 @@ texture = ExtResource("2_25rst")
 [node name="Outline" parent="ThighL/Sprite2D" instance=ExtResource("3_8rtkg")]
 show_behind_parent = false
 
-[node name="Polygon2D" type="Polygon2D" parent="ThighL"]
-visible = false
-polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ThighL"]
 visible = false
-position = Vector2(14, 0)
+position = Vector2(10.5, 0)
 rotation = 1.5708
-shape = SubResource("RectangleShape2D_xvg7r")
+shape = SubResource("CapsuleShape2D_rrrbb")
 
 [node name="PinCalfL" type="PinJoint2D" parent="ThighL"]
 visible = false
@@ -206,10 +203,6 @@ texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="CalfR/Sprite2D" instance=ExtResource("3_8rtkg")]
 
-[node name="Polygon2D2" type="Polygon2D" parent="CalfR"]
-visible = false
-polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
-
 [node name="Foot" type="Sprite2D" parent="CalfR"]
 position = Vector2(25, 0.5)
 rotation = 3.14159
@@ -218,11 +211,6 @@ texture = ExtResource("6_t74xm")
 offset = Vector2(-20, 0)
 
 [node name="Outline" parent="CalfR/Foot" instance=ExtResource("3_8rtkg")]
-
-[node name="Foot2" type="Polygon2D" parent="CalfR"]
-visible = false
-position = Vector2(29, 0)
-polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfR"]
 visible = false
@@ -266,10 +254,6 @@ texture = ExtResource("2_25rst")
 
 [node name="Outline" parent="CalfL/Sprite2D" instance=ExtResource("3_8rtkg")]
 
-[node name="Polygon2D2" type="Polygon2D" parent="CalfL"]
-visible = false
-polygon = PackedVector2Array(0, 2, 29, 2, 29, -2, 0, -2)
-
 [node name="Foot" type="Sprite2D" parent="CalfL"]
 position = Vector2(25, 0.5)
 rotation = 3.14159
@@ -278,11 +262,6 @@ texture = ExtResource("6_t74xm")
 offset = Vector2(-20, 0)
 
 [node name="Outline" parent="CalfL/Foot" instance=ExtResource("3_8rtkg")]
-
-[node name="Foot2" type="Polygon2D" parent="CalfL"]
-visible = false
-position = Vector2(29, 0)
-polygon = PackedVector2Array(0, 7, -5, 4, -5, -4, 0, -7)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CalfL"]
 visible = false
@@ -326,12 +305,6 @@ scale = Vector2(0.175, 0.175)
 texture = ExtResource("8_0wiy5")
 script = ExtResource("8_oo7fy")
 
-[node name="Polygon2D" type="Polygon2D" parent="Body"]
-visible = false
-scale = Vector2(0.28, 0.28)
-color = Color(0.8, 0.427451, 0.368627, 1)
-polygon = PackedVector2Array(-92.8571, -17.8571, -64.2857, -46.4286, 64.2857, -46.4286, 92.8571, -17.8571, 92.8571, 21.4286, 64.2857, 46.4286, -64.2857, 46.4286, -92.8571, 21.4286)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 visible = false
 rotation = 1.5708
@@ -366,7 +339,7 @@ damp = 5.0
 auto_enable = true
 
 [node name="KeyHolder" type="Node2D" parent="Body/Prompts"]
-position = Vector2(0, -150)
+position = Vector2(0, -125)
 
 [node name="FlexUp" type="Sprite2D" parent="Body/Prompts/KeyHolder"]
 top_level = true
@@ -376,7 +349,7 @@ texture = SubResource("Texture2D_8cnrs")
 script = ExtResource("3_81erl")
 
 [node name="KeyHolder2" type="Node2D" parent="Body/Prompts"]
-position = Vector2(0, 150)
+position = Vector2(0, 125)
 
 [node name="FlexDown" type="Sprite2D" parent="Body/Prompts/KeyHolder2"]
 top_level = true
@@ -386,7 +359,7 @@ texture = SubResource("Texture2D_1ogw2")
 script = ExtResource("3_81erl")
 
 [node name="KeyHolder3" type="Node2D" parent="Body/Prompts"]
-position = Vector2(-125, 0)
+position = Vector2(-150, 0)
 
 [node name="LeftLeg" type="Sprite2D" parent="Body/Prompts/KeyHolder3"]
 top_level = true
@@ -396,7 +369,7 @@ texture = SubResource("Texture2D_773cr")
 script = ExtResource("3_81erl")
 
 [node name="KeyHolder4" type="Node2D" parent="Body/Prompts"]
-position = Vector2(125, 0)
+position = Vector2(150, 0)
 
 [node name="RightLeg" type="Sprite2D" parent="Body/Prompts/KeyHolder4"]
 top_level = true
