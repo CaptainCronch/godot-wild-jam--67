@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cg6gwc3yg0dxh"]
+[gd_scene load_steps=5 format=3 uid="uid://cg6gwc3yg0dxh"]
 
 [ext_resource type="Script" path="res://Scripts/checkpoint.gd" id="1_p1o1o"]
+[ext_resource type="Texture2D" uid="uid://clk4t7ftbquun" path="res://Assets/Props/Checkpoint1.png" id="2_ayc21"]
+[ext_resource type="Texture2D" uid="uid://b6yve4efv623p" path="res://Assets/Props/Checkpoint2.png" id="3_mlwej"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7i7om"]
-radius = 150.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1h82d"]
+size = Vector2(92, 126)
 
 [node name="Checkpoint" type="Area2D"]
 collision_layer = 16
@@ -13,9 +15,77 @@ script = ExtResource("1_p1o1o")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, -65)
-shape = SubResource("CircleShape2D_7i7om")
+shape = SubResource("RectangleShape2D_1h82d")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-2, -40, -38, -96, -2, -128, 28, -99)
+[node name="CanvasGroup2" type="CanvasGroup" parent="."]
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasGroup2"]
+self_modulate = Color(0.45098, 0.45098, 0.45098, 1)
+position = Vector2(35, -65)
+rotation = -1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_ayc21")
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasGroup2"]
+self_modulate = Color(0.45098, 0.45098, 0.45098, 1)
+position = Vector2(-35, -65)
+rotation = -1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_ayc21")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, -165)
+amount = 10
+lifetime = 3.0
+randomness = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(53, 1)
+direction = Vector2(0, 1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 20.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.137255, 1, 0.67451, 1)
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+position = Vector2(0, -26)
+amount = 10
+lifetime = 3.0
+randomness = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(53, 1)
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 20.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.137255, 1, 0.67451, 1)
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(0, -5.625)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_ayc21")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasGroup/Sprite2D"]
+position = Vector2(0, -36)
+texture = ExtResource("3_mlwej")
+
+[node name="Sprite2D4" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(0, -123)
+rotation = -3.14159
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_ayc21")
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasGroup/Sprite2D4"]
+position = Vector2(-3.1752e-06, -36.32)
+texture = ExtResource("3_mlwej")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

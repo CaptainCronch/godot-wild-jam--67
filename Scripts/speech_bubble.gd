@@ -16,7 +16,7 @@ func _ready():
 
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(self, "position", og_pos + fly, time)
+	tween.tween_property(self, "position", og_pos + fly.rotated(global_rotation), time)
 
 	var border_tween := get_tree().create_tween().bind_node(border)
 

@@ -211,7 +211,6 @@ texture = ExtResource("2_1pbvj")
 offset = Vector2(0, -110)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, -31)
 shape = SubResource("CircleShape2D_ogubi")
 

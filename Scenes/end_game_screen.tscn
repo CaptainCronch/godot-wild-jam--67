@@ -1,0 +1,132 @@
+[gd_scene load_steps=12 format=3 uid="uid://ccauqobud73rn"]
+
+[ext_resource type="Script" path="res://Scripts/end_ui.gd" id="1_j3hh2"]
+[ext_resource type="AudioStream" uid="uid://cwffbichtccbh" path="res://Assets/Sounds/exit_hit.wav" id="2_0iqhv"]
+[ext_resource type="Texture2D" uid="uid://dn1k6r2k5g320" path="res://Assets/Environment/1024-64-checkers.png" id="2_s8cuy"]
+[ext_resource type="Script" path="res://Scripts/autoscroll_background.gd" id="2_urgxg"]
+[ext_resource type="Texture2D" uid="uid://jd1nb4qjqmcs" path="res://Assets/Environment/1024-128-checkers.png" id="3_d6uaj"]
+[ext_resource type="Texture2D" uid="uid://n5iyvx05t006" path="res://Assets/title.png" id="4_fyusc"]
+[ext_resource type="Theme" uid="uid://b1fexidhs8ulp" path="res://default_theme.tres" id="7_4gvqe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gd7nu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65b1v"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8scgr"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_2jp86"]
+font_size = 36
+
+[node name="EndUI" type="CanvasLayer"]
+script = ExtResource("1_j3hh2")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+script = ExtResource("2_urgxg")
+
+[node name="Small" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(1024, 1024)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Small"]
+self_modulate = Color(0.105882, 0.105882, 0.105882, 1)
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("2_s8cuy")
+centered = false
+
+[node name="Big" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1024, 1024)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Big"]
+self_modulate = Color(0.14902, 0.14902, 0.14902, 1)
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("3_d6uaj")
+centered = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 300.0
+grow_horizontal = 2
+texture = ExtResource("4_fyusc")
+
+[node name="QuitProgress2" type="ProgressBar" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1.0
+offset_bottom = 27.0
+grow_horizontal = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_gd7nu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_65b1v")
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="QuitProgress2"]
+stream = ExtResource("2_0iqhv")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -219.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="CaptCronch" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(884, 71)
+layout_mode = 2
+theme = ExtResource("7_4gvqe")
+text = "Programming, design, and effects: CaptCronch"
+horizontal_alignment = 2
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="Kyun" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(884, 71)
+layout_mode = 2
+theme = ExtResource("7_4gvqe")
+text = "Art and design: KyunAstralGoat"
+horizontal_alignment = 2
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="Cereal" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(884, 71)
+layout_mode = 2
+theme = ExtResource("7_4gvqe")
+text = "Music and sound effects: CerealBowlSystem"
+horizontal_alignment = 2
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="Etc" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(884, 71)
+layout_mode = 2
+theme = ExtResource("7_4gvqe")
+text = "Impact sound effect: Nathan Gibson"
+label_settings = SubResource("LabelSettings_8scgr")
+horizontal_alignment = 2
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="Found" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(884, 71)
+layout_mode = 2
+theme = ExtResource("7_4gvqe")
+text = "You found 4/9 Goops!"
+label_settings = SubResource("LabelSettings_2jp86")
+horizontal_alignment = 2
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[connection signal="finished" from="QuitProgress2/AudioStreamPlayer" to="." method="_on_audio_finished"]

@@ -9,8 +9,10 @@ collision_mask = 0
 script = ExtResource("1_8d7ou")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -10
+z_as_relative = false
 texture_repeat = 2
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_iyj6j")
 region_enabled = true
 region_rect = Rect2(0, 0, 1400, 1400)

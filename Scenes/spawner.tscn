@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4g2jcho42ren"]
+
+[ext_resource type="Texture2D" uid="uid://dda78s32vbkw0" path="res://Assets/circle.png" id="1_njsso"]
+[ext_resource type="Script" path="res://Scripts/spawner.gd" id="2_nc6ip"]
+
+[sub_resource type="Animation" id="Animation_igmqe"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cagh7"]
+resource_name = "rainbow"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 0, 1), Color(0, 1, 1, 1), Color(1, 0, 1, 1), Color(1, 1, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_drhdh"]
+_data = {
+"RESET": SubResource("Animation_igmqe"),
+"rainbow": SubResource("Animation_cagh7")
+}
+
+[node name="Spawner" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_njsso")
+script = ExtResource("2_nc6ip")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_drhdh")
+}
+autoplay = "rainbow"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

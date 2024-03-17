@@ -4,4 +4,4 @@ extends StaticBody2D
 
 
 func _ready():
-	sprite.region_rect.size = 7 * ($CollisionShape2D.shape.size)
+	sprite.region_rect.size = 3.5 * ($CollisionShape2D.shape.size)

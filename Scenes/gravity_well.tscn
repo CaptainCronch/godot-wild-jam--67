@@ -1,18 +1,18 @@
 [gd_scene load_steps=5 format=3 uid="uid://cet6dbe8iqj3j"]
 
 [ext_resource type="Script" path="res://Scripts/gravity_well.gd" id="1_c8tlv"]
-[ext_resource type="Shader" path="res://water.gdshader" id="2_r4fwe"]
+[ext_resource type="Shader" path="res://better_water.gdshader" id="2_7x28u"]
+[ext_resource type="Texture2D" uid="uid://c6235jutochr7" path="res://Assets/white-dot.png" id="2_yih7x"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vlixn"]
-shader = ExtResource("2_r4fwe")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v7nki"]
+shader = ExtResource("2_7x28u")
 shader_parameter/tint = Color(0.101961, 0.811765, 0.580392, 1)
-shader_parameter/sprite_scale = Vector2(1, 1)
-shader_parameter/scale_x = 0.2
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xebgm"]
-size = Vector2(200, 200)
+shader_parameter/sprite_scale = Vector2(10, 10)
+shader_parameter/scale_x = 1.0
 
 [node name="GravityWell" type="Area2D"]
+z_index = -10
+z_as_relative = false
 collision_layer = 16
 collision_mask = 6
 gravity_space_override = 3
@@ -22,5 +22,5 @@ gravity = 490.0
 script = ExtResource("1_c8tlv")
 
 [node name="Wiggle" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_vlixn")
-texture = SubResource("PlaceholderTexture2D_xebgm")
+material = SubResource("ShaderMaterial_v7nki")
+texture = ExtResource("2_yih7x")

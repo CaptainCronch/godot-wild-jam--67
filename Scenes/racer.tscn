@@ -1,23 +1,99 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgr36g2m76xiu"]
+[gd_scene load_steps=9 format=3 uid="uid://bgr36g2m76xiu"]
 
 [ext_resource type="Script" path="res://Scripts/racer.gd" id="1_daqwa"]
-[ext_resource type="Script" path="res://addons/controller_icons/objects/ControllerIconTexture.gd" id="1_idlo5"]
+[ext_resource type="Material" uid="uid://l0dbu6l03vov" path="res://outline_mat.tres" id="2_gxado"]
+[ext_resource type="Texture2D" uid="uid://bv8cngp7i6nv4" path="res://Assets/SlimeNPC.png" id="3_k7qjp"]
 
-[sub_resource type="Texture2D" id="Texture2D_ss2es"]
-resource_local_to_scene = false
-resource_name = ""
-script = ExtResource("1_idlo5")
-path = "key/r"
-show_mode = 0
-force_type = 0
+[sub_resource type="Animation" id="Animation_sujbb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.25, 0.25)]
+}
+
+[sub_resource type="Animation" id="Animation_of4jh"]
+resource_name = "idle"
+length = 5.0
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.65, 2.55, 3.35, 4.3, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(0.27, 0.23), Vector2(0.28, 0.21), Vector2(0.22, 0.26), Vector2(0.26, 0.23), Vector2(0.27, 0.22), Vector2(0.25, 0.25)]
+}
+
+[sub_resource type="Animation" id="Animation_o6h61"]
+resource_name = "jiggle_down"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(0.2, 0.35), Vector2(0.15, 0.35), Vector2(0.32, 0.18), Vector2(0.3, 0.2), Vector2(0.22, 0.27), Vector2(0.25, 0.25)]
+}
+
+[sub_resource type="Animation" id="Animation_mqjj5"]
+resource_name = "jiggle_up"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(0.35, 0.2), Vector2(0.35, 0.15), Vector2(0.18, 0.32), Vector2(0.2, 0.3), Vector2(0.27, 0.22), Vector2(0.25, 0.25)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t2k1k"]
+_data = {
+"RESET": SubResource("Animation_sujbb"),
+"idle": SubResource("Animation_of4jh"),
+"jiggle_down": SubResource("Animation_o6h61"),
+"jiggle_up": SubResource("Animation_mqjj5")
+}
 
 [node name="Racer" type="Path2D"]
+z_index = 1
 script = ExtResource("1_daqwa")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 loop = false
 
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D"]
-position = Vector2(0, -28)
-scale = Vector2(0.75, 0.75)
-texture = SubResource("Texture2D_ss2es")
+material = ExtResource("2_gxado")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_k7qjp")
+offset = Vector2(0, -110)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D"]
+libraries = {
+"": SubResource("AnimationLibrary_t2k1k")
+}
+autoplay = "idle"

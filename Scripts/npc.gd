@@ -3,7 +3,11 @@ extends Area2D
 const BUBBLE := preload("res://Scenes/speech_bubble.tscn")
 
 @export var dialogues : Array[String] = ["..."]
+@export var give_goop := false
+@export var goop_name : String
+@export var post_dialogues : Array[String] = ["..."]
 
+var last_message := ""
 var dialogue_index := -1
 var inside := false
 var current_bubble : CanvasItem
@@ -20,19 +24,31 @@ func _process(_delta):
 			if rand: animation_player.play("jiggle_up")
 			else: animation_player.play("jiggle_down")
 
-			audio.play()
-
 			if is_instance_valid(current_bubble): current_bubble.free()
 			current_bubble = BUBBLE.instantiate()
-			current_bubble.global_position = global_position + Vector2(0, -100)
+			current_bubble.global_position = global_position + Vector2(0, -100).rotated(global_rotation)
+			current_bubble.global_rotation = global_rotation
 			current_bubble.og_pos = current_bubble.global_position
 			get_tree().current_scene.add_child(current_bubble)
+
 			dialogue_index += 1
 			if dialogue_index > dialogues.size() - 1:
 				dialogue_index = 0
-			Global.set_message(dialogues[dialogue_index])
+				if give_goop:
+					give_goop = false
+					dialogue_index = -1
+					Global.message.emit("")
+					last_message = ""
+					Global.collectible_get.emit(goop_name)
+					dialogues = post_dialogues
+					return
+			audio.play()
+			Global.message.emit(dialogues[dialogue_index])
+			last_message = dialogues[dialogue_index]
 	else:
-		Global.set_message("")
+		if not last_message.is_empty():
+			Global.message.emit("")
+			last_message = ""
 		dialogue_index = -1
 		if is_instance_valid(current_bubble):
 			current_bubble.queue_free()

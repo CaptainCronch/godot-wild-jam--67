@@ -8,7 +8,7 @@ extends Area2D
 @onready var audio : AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _process(_delta):
-	line.points[1] = sprite.position + sprite.offset
+	line.points[1] = sprite.position
 
 
 func _on_body_entered(body):

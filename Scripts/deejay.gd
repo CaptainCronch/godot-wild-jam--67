@@ -39,6 +39,7 @@ var race_time := false
 
 
 func _ready():
+	Global.collectible_get.connect(_on_collectible_get)
 	#AudioServer.set_bus_mute(music_bus, true)
 
 	ambient = AudioStreamPlayer.new()
@@ -69,18 +70,20 @@ func _ready():
 	fast.finished.connect(_on_fast_finished)
 	melody.finished.connect(_on_melody_finished)
 
+	reset_music()
+
+
+func _process(_delta):
+	if Input.is_action_just_released("mute"):
+		AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
+
+
+func start_music():
 	ambient.play()
 	drums.play()
 	bass.play()
 	fast.play()
 	melody.play()
-
-	reset_music()
-
-
-func _process(_delta):
-	if Input.is_action_just_pressed("mute"):
-		AudioServer.set_bus_mute(music_bus, not AudioServer.is_bus_mute(music_bus))
 
 
 func reset_music():
@@ -144,3 +147,14 @@ func _on_melody_finished():
 	else:
 		AudioServer.set_bus_mute(melody_bus, true)
 	melody.play()
+
+
+func _on_collectible_get(_title : String):
+	AudioServer.set_bus_effect_enabled(music_bus, 0, true)
+	await get_tree().create_timer(3).timeout
+	AudioServer.set_bus_effect_enabled(music_bus, 0, false)
+
+
+func shut_up(on : bool):
+	AudioServer.set_bus_effect_enabled(music_bus, 0, on)
+

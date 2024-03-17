@@ -3,7 +3,7 @@ extends Node2D
 signal spun(amount : float)
 
 const MAX_FLEX := 80.0
-const PUSH_FORCE := 500.0
+const PUSH_FORCE := 350.0
 const INACTIVITY_TIME := 3.0
 
 var desired_rotation := 45.0
@@ -18,6 +18,7 @@ var foot_collider_r : Array[Node2D] = []
 var foot_collider_l : Array[Node2D] = []
 
 var inactive_tween : Tween
+var first_pressed = false
 
 var respawn_pos := Vector2()
 var respawn_time := 1.0
@@ -45,7 +46,11 @@ var joints : Array[PinSpringJoint2D]
 @onready var left_leg = $Body/Prompts/KeyHolder3/LeftLeg
 @onready var right_leg = $Body/Prompts/KeyHolder4/RightLeg
 
-@onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+@onready var grab_audio : AudioStreamPlayer = $Grab
+@onready var impact_audio : AudioStreamPlayer = $Impact
+@onready var collectible_audio : AudioStreamPlayer = $CollectibleGet
+@onready var collectible_particles : CPUParticles2D = $CollectibleParticles
+@onready var respawn_audio : AudioStreamPlayer = $Respawn
 
 
 func _enter_tree():
@@ -53,10 +58,15 @@ func _enter_tree():
 
 
 func _ready():
+	respawn_pos = global_position
 	inactive_tween = get_tree().create_tween()
 	inactive_tween.kill()
 	body_parts = [body, thigh_r, thigh_l, calf_r, calf_l]
 	joints = [$Body/PinThighR, $Body/PinThighL, $ThighR/PinCalfR, $ThighL/PinCalfL]
+
+	Global.collectible_get.connect(_on_collectible_get)
+	for part in body_parts:
+		part.gravity_scale = 0.25
 
 
 func _process(delta):
@@ -77,7 +87,7 @@ func _process(delta):
 				blocked_r = true
 				joint_foot_r.node_b = joint_foot_r.get_path_to(foot_collider_r[0])
 				joint_foot_r.global_position = calf_r.collision_pos
-				audio.play()
+				grab_audio.play()
 	elif Input.is_action_just_released("lock_right"):
 		blocked_r = false
 		joint_foot_r.node_b = ""
@@ -89,7 +99,7 @@ func _process(delta):
 				blocked_l = true
 				joint_foot_l.node_b = joint_foot_l.get_path_to(foot_collider_l[0])
 				joint_foot_l.global_position = calf_l.collision_pos
-				audio.play()
+				grab_audio.play()
 	elif Input.is_action_just_released("lock_left"):
 		blocked_l = false
 		joint_foot_l.node_b = ""
@@ -138,12 +148,14 @@ func check_keys():
 	elif Input.is_action_just_released("lock_right"): right_leg.self_modulate = Color.WHITE
 
 	if active:
+		first_pressed = true
 		for key in prompts.get_children():
 			key.get_child(0).modulate = Color.WHITE
 		inactive_tween.kill()
 		return
 
 	if inactive_tween.is_valid(): return
+	if not first_pressed: return
 
 	inactive_tween = get_tree().create_tween()
 	inactive_tween.tween_interval(INACTIVITY_TIME)
@@ -156,12 +168,14 @@ func check_keys():
 func check_spins(delta : float) -> void :
 	if paused: return
 	tracked_rotation += body.angular_velocity * delta
-	if absf(tracked_rotation) >= deg_to_rad(180):
-		spun.emit(0.5)
-		tracked_rotation += deg_to_rad(180) * signf(tracked_rotation) * -1
+	if absf(tracked_rotation) >= deg_to_rad(360):
+		spun.emit(1)
+		tracked_rotation -= deg_to_rad(360) * signf(tracked_rotation)
 
 
 func respawn():
+	respawn_audio.play()
+
 	pause(true)
 
 	var limb_positions : PackedVector2Array = []
@@ -181,7 +195,7 @@ func respawn():
 
 	pause(false)
 
-	for n in range(10):
+	for n in range(5):
 		await get_tree().create_timer(0.1).timeout
 		body.global_position = respawn_pos
 		i = 0
@@ -199,6 +213,16 @@ func pause(on : bool) -> void :
 		part.freeze = on
 
 
+func _on_collectible_get(_title : String):
+	collectible_audio.play()
+	collectible_particles.global_position = body.global_position
+	collectible_particles.global_rotation = 0
+	collectible_particles.emitting = true
+	pause(true)
+	await get_tree().create_timer(3).timeout
+	pause(false)
+
+
 func _on_right_body_entered(_body):
 	foot_collider_r.append(_body)
 
@@ -213,3 +237,7 @@ func _on_left_body_entered(_body):
 
 func _on_left_body_exited(_body):
 	foot_collider_l.erase(_body)
+
+
+func _on_body_body_entered(body):
+	impact_audio.play()

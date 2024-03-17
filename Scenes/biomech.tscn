@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://bw3ib4ncn4smp"]
+[gd_scene load_steps=37 format=3 uid="uid://bw3ib4ncn4smp"]
 
 [ext_resource type="Script" path="res://Scripts/biomech.gd" id="1_30v5x"]
 [ext_resource type="Texture2D" uid="uid://dq1nt0qtiw50n" path="res://Assets/Player/RoboLeg.png" id="2_25rst"]
 [ext_resource type="Script" path="res://addons/PinSpringJoint2D/PinSpringJoint2D.gd" id="2_r7qq2"]
+[ext_resource type="Texture2D" uid="uid://ngnatuq8y4d0" path="res://Assets/combined_fun_particle.png" id="2_ymni2"]
 [ext_resource type="Script" path="res://Scripts/transform_follow.gd" id="3_2colb"]
 [ext_resource type="PackedScene" uid="uid://k72gcod0fjgc" path="res://Scenes/outline.tscn" id="3_8rtkg"]
 [ext_resource type="Script" path="res://Scripts/pos_follow.gd" id="3_81erl"]
@@ -17,6 +18,19 @@
 [ext_resource type="AudioStream" uid="uid://tox4j42lxl7d" path="res://Assets/Sounds/Grab/SFX Grab D.mp3" id="15_40a5u"]
 [ext_resource type="AudioStream" uid="uid://bmv47ubcgo56v" path="res://Assets/Sounds/Grab/SFX Grab E.mp3" id="16_k3cha"]
 [ext_resource type="AudioStream" uid="uid://0bgguj1v37fb" path="res://Assets/Sounds/Grab/SFX Grab F.mp3" id="17_8whut"]
+[ext_resource type="AudioStream" uid="uid://cmn4uebcwiwx0" path="res://Assets/Sounds/African1.mp3" id="18_pxgqk"]
+[ext_resource type="AudioStream" uid="uid://drkv2nlmmkvf2" path="res://Assets/Sounds/SFX_Collectible.mp3" id="19_kjsbl"]
+[ext_resource type="AudioStream" uid="uid://ciece6imje566" path="res://Assets/Sounds/splash.wav" id="21_81y01"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_x7hua"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_p5ayr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.802993, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0581506), -12.7787, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i61q8"]
 friction = 0.8
@@ -87,6 +101,13 @@ stream_3/weight = 1.0
 stream_4/stream = ExtResource("17_8whut")
 stream_4/weight = 1.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_eij7s"]
+random_pitch = 2.0
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("18_pxgqk")
+stream_0/weight = 1.0
+
 [node name="Biomech" type="Node2D" node_paths=PackedStringArray("body", "thigh_r", "thigh_l", "calf_r", "calf_l", "joint_thigh_r", "joint_thigh_l", "joint_calf_r", "joint_calf_l", "joint_foot_r", "joint_foot_l")]
 z_index = 1
 script = ExtResource("1_30v5x")
@@ -115,6 +136,27 @@ node_a = NodePath("../CalfL")
 bias = 0.1
 disable_collision = false
 softness = 16.0
+
+[node name="CollectibleParticles" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_x7hua")
+emitting = false
+amount = 50
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("2_ymni2")
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, 800)
+initial_velocity_min = 800.0
+initial_velocity_max = 1000.0
+angular_velocity_min = 120.0
+angular_velocity_max = 720.0
+damping_min = 300.0
+damping_max = 400.0
+angle_max = 360.0
+scale_amount_curve = SubResource("Curve_p5ayr")
+anim_offset_max = 1.0
 
 [node name="ThighR" type="RigidBody2D" parent="."]
 position = Vector2(26, 0)
@@ -291,6 +333,8 @@ collision_mask = 5
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_i61q8")
 continuous_cd = 2
+max_contacts_reported = 3
+contact_monitor = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Body"]
 position = Vector2(0, -5.195)
@@ -378,13 +422,28 @@ scale = Vector2(0.5, 0.5)
 texture = SubResource("Texture2D_7fl6m")
 script = ExtResource("3_81erl")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Grab" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_3xiu6")
 volume_db = 1.0
 max_polyphony = 2
+bus = &"SFX"
+
+[node name="Impact" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_eij7s")
+volume_db = 4.0
+pitch_scale = 0.6
+bus = &"SFX"
+
+[node name="CollectibleGet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_kjsbl")
+bus = &"SFX"
+
+[node name="Respawn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_81y01")
 bus = &"SFX"
 
 [connection signal="body_entered" from="CalfR/StickCheck" to="." method="_on_right_body_entered"]
 [connection signal="body_exited" from="CalfR/StickCheck" to="." method="_on_right_body_exited"]
 [connection signal="body_entered" from="CalfL/StickCheck" to="." method="_on_left_body_entered"]
 [connection signal="body_exited" from="CalfL/StickCheck" to="." method="_on_left_body_exited"]
+[connection signal="body_entered" from="Body" to="." method="_on_body_body_entered"]

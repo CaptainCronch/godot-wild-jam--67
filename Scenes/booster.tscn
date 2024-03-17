@@ -1,19 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdio45ea0nv56"]
+[gd_scene load_steps=11 format=3 uid="uid://bdio45ea0nv56"]
 
 [ext_resource type="Script" path="res://Scripts/booster.gd" id="1_33kn7"]
-[ext_resource type="Texture2D" uid="uid://sijk7wr3u6pq" path="res://Assets/spring.png" id="2_ds5w0"]
+[ext_resource type="Texture2D" uid="uid://b4171t646bh51" path="res://Assets/Props/Bouncer1.png" id="2_soaa4"]
 [ext_resource type="Shader" path="res://outline.gdshader" id="3_1ouk8"]
 [ext_resource type="AudioStream" uid="uid://ce4s16ui86avi" path="res://Assets/Sounds/SFX_Jump.mp3" id="3_6c7on"]
-[ext_resource type="Texture2D" uid="uid://b5gwrgupat5uo" path="res://Assets/pad.png" id="4_a5bsx"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_1ify0"]
-diffuse_texture = ExtResource("2_ds5w0")
-texture_repeat = 2
+[ext_resource type="Texture2D" uid="uid://bk0cngao4cwft" path="res://Assets/Props/Bouncer2.png" id="4_2f4ea"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ayygn"]
 shader = ExtResource("3_1ouk8")
 shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 2.0
+shader_parameter/width = 5.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
 shader_parameter/add_margins = true
@@ -48,7 +44,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3, 0.5, 0.7, 0.9, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -70), Vector2(0, 20), Vector2(0, -10), Vector2(0, 5), Vector2(0, -1), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, -100), Vector2(0, 20), Vector2(0, -10), Vector2(0, 5), Vector2(0, -1), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cafmn"]
@@ -63,18 +59,21 @@ collision_mask = 6
 script = ExtResource("1_33kn7")
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 0, 0)
+z_index = -10
+z_as_relative = false
+texture_repeat = 3
+points = PackedVector2Array(0, 35, 0, -46)
 width = 50.0
-texture = SubResource("CanvasTexture_1ify0")
+texture = ExtResource("2_soaa4")
 texture_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ayygn")
 position = Vector2(0, -42)
-texture = ExtResource("4_a5bsx")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_2f4ea")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0.5, -46.5)
 shape = SubResource("RectangleShape2D_ofd2b")
 

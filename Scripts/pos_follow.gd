@@ -20,9 +20,9 @@ func _ready():
 		offset = target.position
 
 
-func _process(_delta) -> void:
-	offset_bonus = inverse_lerp(0.0, max_velocity, absf(target.global_rotation - last_rotation)) * 0.5 + 1
-	target.position = offset * offset_bonus
+func _process(delta) -> void:
+	#offset_bonus = inverse_lerp(0.0, max_velocity, absf(target.global_rotation - last_rotation) * delta) * 0.25 + 1
+	#target.position = offset * offset_bonus
 	global_position = target.global_position
 
 	last_rotation = target.global_rotation

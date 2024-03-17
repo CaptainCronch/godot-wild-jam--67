@@ -32,7 +32,7 @@ func set_freeze(on : bool) -> bool :
 			return false
 	for body in stick_check.get_overlapping_bodies():
 		if body.get_collision_layer_value(3) and on:
-			body.linear_velocity = Vector2.from_angle(deg_to_rad(rotation_degrees - 180)) * player.PUSH_FORCE
+			body.linear_velocity = Vector2.from_angle(deg_to_rad(rotation_degrees)) * player.PUSH_FORCE
 			return false
 
 
